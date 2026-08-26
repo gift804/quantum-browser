@@ -1,0 +1,62 @@
+{
+  "name": "quantum-browser",
+  "version": "0.1.0",
+  "description": "A super powerful browser with integrated VPN, built with Electron and WireGuard",
+  "main": "dist/main/index.js",
+  "homepage": "./",
+  "author": "Quantum Team",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:electron\" \"npm run dev:react\"",
+    "dev:react": "react-scripts start",
+    "dev:electron": "wait-on http://localhost:3000 && electron .",
+    "build": "npm run build:react && npm run build:electron",
+    "build:react": "react-scripts build",
+    "build:electron": "tsc -p tsconfig.main.json",
+    "start": "electron .",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "electron-squirrel-startup": "^1.1.1",
+    "axios": "^1.6.0",
+    "recharts": "^2.10.0",
+    "styled-components": "^6.1.0"
+  },
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4",
+    "typescript": "^5.2.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "concurrently": "^8.2.0",
+    "wait-on": "^7.0.1",
+    "react-scripts": "5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "build": {
+    "appId": "com.quantumbrowser.app",
+    "productName": "Quantum Browser",
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "build/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  }
+}
