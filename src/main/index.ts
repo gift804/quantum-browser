@@ -4,6 +4,10 @@ import { StorageManager } from './storage/StorageManager';
 import { VPNManager } from './vpn/VPNManager';
 import { ObfuscationEngine } from './obfuscation/ObfuscationEngine';
 import { BrowserState } from './browser/BrowserState';
+import { DNSManager } from './dns/DNSManager';
+import { ProxyManager } from './proxy/ProxyManager';
+import { WebAccessManager } from './web/WebAccessManager';
+import { setupWebAccessHandlers } from './handlers/WebAccessHandlers';
 import isDev from 'electron-is-dev';
 
 let mainWindow: BrowserWindow | null;
@@ -11,6 +15,9 @@ let storageManager: StorageManager;
 let vpnManager: VPNManager;
 let obfuscationEngine: ObfuscationEngine;
 let browserState: BrowserState;
+let dnsManager: DNSManager;
+let proxyManager: ProxyManager;
+let webAccessManager: WebAccessManager;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -43,17 +50,21 @@ function createWindow() {
 }
 
 app.on('ready', async () => {
-  // Initialize managers
+  // Initialize all managers
   storageManager = new StorageManager(250 * 1024 * 1024 * 1024); // 250 GB
   vpnManager = new VPNManager(storageManager);
   obfuscationEngine = new ObfuscationEngine();
   browserState = new BrowserState(storageManager);
+  dnsManager = new DNSManager(storageManager);
+  proxyManager = new ProxyManager();
+  webAccessManager = new WebAccessManager(dnsManager);
 
   createWindow();
   createMenu();
 
-  // IPC handlers
+  // Setup all IPC handlers
   setupIPCHandlers();
+  setupWebAccessHandlers(webAccessManager, dnsManager, proxyManager, storageManager);
 });
 
 app.on('window-all-closed', () => {
