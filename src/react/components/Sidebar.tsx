@@ -148,6 +148,10 @@ export const Sidebar: React.FC<Props> = ({ activePanel, onPanelChange }) => {
           <Icon>🔒</Icon>
           VPN
         </NavItem>
+        <NavItem active={activePanel === 'web'} onClick={() => onPanelChange('web')}>
+          <Icon>🌍</Icon>
+          Web Access
+        </NavItem>
       </NavSection>
 
       <NavSection>
@@ -157,7 +161,7 @@ export const Sidebar: React.FC<Props> = ({ activePanel, onPanelChange }) => {
           Bookmarks
         </NavItem>
         <NavItem active={activePanel === 'history'} onClick={() => onPanelChange('history')}>
-          <Icon>📜</Icon>
+          <Icon>📄</Icon>
           History
         </NavItem>
       </NavSection>

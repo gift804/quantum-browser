@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BrowserWindow } from './components/BrowserWindow';
 import { VPNPanel } from './components/VPNPanel';
 import { SettingsPanel } from './components/SettingsPanel';
+import { WebAccessPanel } from './components/WebAccessPanel';
 import { Sidebar } from './components/Sidebar';
 import './App.css';
 
-type PanelType = 'browser' | 'vpn' | 'settings' | 'bookmarks' | 'history';
+type PanelType = 'browser' | 'vpn' | 'settings' | 'bookmarks' | 'history' | 'web';
 
 const AppContainer = styled.div`
   display: flex;
@@ -30,11 +31,6 @@ function App() {
   const [vpnConnected, setVpnConnected] = useState(false);
   const [currentServer, setCurrentServer] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Initialize app
-    console.log('Quantum Browser initialized');
-  }, []);
-
   return (
     <AppContainer>
       <Sidebar activePanel={activePanel} onPanelChange={setActivePanel} />
@@ -48,6 +44,7 @@ function App() {
             onServerChange={setCurrentServer}
           />
         )}
+        {activePanel === 'web' && <WebAccessPanel />}
         {activePanel === 'settings' && <SettingsPanel />}
       </MainContent>
     </AppContainer>
